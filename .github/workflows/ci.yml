@@ -1,0 +1,33 @@
+name: public-safety
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required repository standard
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in README.md CONTRIBUTING.md SECURITY.md OWNERSHIP.md NOTICE.md .osystic/repository.yml docs/architecture.md docs/runbook.md docs/handover.md docs/disclosure-boundary.md docs/publication-record.md; do
+            test -f "$f" || { echo "Missing $f"; exit 1; }
+          done
+      - name: Block confidential artifact types
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find . -type f \( -name '*.uasset' -o -name '*.umap' -o -name '*.uproject' -o -name '*.cpp' -o -name '*.h' -o -name '*.usf' -o -name '*.mov' -o -name '*.mp4' -o -name '*.jsonl' -o -name '*.zip' \) -not -path './.git/*' | grep -q .; then
+            echo "Confidential/delivery artifact type detected"; exit 1
+          fi
+      - name: Block known private identifiers
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RniE --exclude-dir=.git --exclude='ci.yml' '(Inception-Technologies|Quarrybuild|XG-011|MD-STA-26|standalone-osystic|Matthew)' .; then
+            echo "Private/internal identifier detected"; exit 1
+          fi
