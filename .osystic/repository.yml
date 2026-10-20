@@ -1,5 +1,5 @@
 schema_version: 2
-repository_class: labs-showcase
+repository_class: public-showcase
 visibility: public
 lifecycle: maintenance
 business_owner: Shawaiz Arif

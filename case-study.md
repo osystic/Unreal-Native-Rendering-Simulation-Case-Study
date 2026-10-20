@@ -32,6 +32,14 @@ OSYSTIC's engineering work covered native C++ feature implementation, GPU shader
 
 The two workstreams were delivered separately to keep review scope auditable.
 
+## Engineering highlights
+
+- Native Unreal Engine C++ was used for the runtime implementation rather than relying on editor-only graph logic.
+- Deterministic simulation and geometry responsibilities were separated from engine orchestration so important behavior could be exercised through repeatable checks.
+- GPU shader/rendering work supported the section-visualization capability where the problem belonged in the render path.
+- Validation was layered across portable regression checks, exact Unreal Engine 5.8.3 build validation, runtime/GPU verification, and visual review in motion.
+- Delivery evidence was kept tied to the reviewed implementation while the public portfolio remained independently sanitized.
+
 ## E - Evidence & outcomes
 
 The private closeout record confirms that both final task branches were present on the client's remote repository at their delivered commits and that both review pull requests remained open, matching the client's required workflow.
